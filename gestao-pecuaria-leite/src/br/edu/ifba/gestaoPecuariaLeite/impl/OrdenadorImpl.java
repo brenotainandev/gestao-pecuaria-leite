@@ -12,7 +12,7 @@ public class OrdenadorImpl extends Ordenador<Leite> {
     }
 
     /**
-     * Complexidade: O(N log N), onde N é o número de leituras.
+     * Complexidade exponencial, O(2^N)
      */
     @Override
     public void ordenar() {
@@ -20,7 +20,7 @@ public class OrdenadorImpl extends Ordenador<Leite> {
     }
 
     /**
-     * Complexidade: O(N log N), onde N é o número de leituras.
+     * Complexidade exponential, O(2^N)
      *
      * @param inicio
      * @param fim
@@ -35,7 +35,7 @@ public class OrdenadorImpl extends Ordenador<Leite> {
     }
 
     /**
-     * Complexidade: O(N), onde N é o número de leituras.
+     * Complexidade linear, O(N)
      *
      * @param inicio
      * @param meio

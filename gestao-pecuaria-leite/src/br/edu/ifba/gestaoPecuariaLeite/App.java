@@ -20,6 +20,7 @@ public class App {
             "Mimosa", "Estrela", "Luzia", "Jurema", "Mariana",
             "Bela", "Lola", "Nina", "Lia", "Dora"
     };
+    private static final int PRODUCAO_MEDIA = 20;
 
     public static void main(String[] args) throws Exception {
         Sensoriamento<Leite> sensoriamento = new SensoriamentoImpl();
@@ -27,18 +28,18 @@ public class App {
 
         Operacoes<Vaca, Leite> operacoes = new OperacoesImpl();
 
-        // Imprimindo as vacas
+        // (d.1) Imprimindo as vacas monitoradas
         imprimirVacas(operacoes, leituras);
 
-        // Imprimindo leituras por vaca
+        // (d.2) Imprimindo as leituras de produção de leite por vaca
         imprimirLeituras(operacoes, leituras);
 
-        // Ordenando os dados das leituras por vaca
+        // (d.3) Ordenando as leituras de produção de leite por vaca
         Map<Vaca, List<Leite>> leiturasOrdenadas = ordenarLeituras(operacoes, leituras);
         imprimirLeiturasOrdenadas(operacoes, leiturasOrdenadas);
 
-        // Procurando por um padrão de produção nas leituras
-        procurarPadrao(operacoes, leituras);
+        // (d.4) Procurando por um padrão de produção de leite nas leituras
+        calcularPrudcaoMedia(operacoes, leituras);
     }
 
     /**
@@ -106,36 +107,24 @@ public class App {
      *
      * @param operacoes Instância de operações para procurar o padrão.
      * @param leituras Mapa de vacas e suas respectivas leituras de produção de leite.
+     *
+     * Este método pode gerar uma situação de necessidade de processamento via brute force (força bruta)
+     * quando o número de vacas e o número de leituras de leite por vaca são grandes. Isso ocorre porque
+     * o algoritmo itera sobre cada vaca e, para cada vaca, itera sobre suas leituras de leite, resultando
+     * em uma complexidade quadrática. Dependendo da quantidade de vacas e leituras realizadas, a execução
+     * deste algoritmo pode elevar o seu tempo/custo e torná-lo ineficiente e ineficaz.
      */
-    private static void procurarPadrao(Operacoes<Vaca, Leite> operacoes, Map<Vaca, List<Leite>> leituras) {
-        List<Leite> padrao = criarPadrao();
-        System.out.println("Procurando pelo padrão");
-        boolean encontrado = operacoes.procurarPadrao(leituras, padrao);
-        imprimirResultadoPadrao(encontrado);
+    private static void calcularPrudcaoMedia(Operacoes<Vaca, Leite> operacoes, Map<Vaca, List<Leite>> leituras) {
+        System.out.println("Calculando a produção média de leite por vaca:");
+        boolean encontrado = operacoes.calcularPrudcaoMedia(leituras, PRODUCAO_MEDIA);
+        imprimirSeEncontrouPadrao(encontrado);
     }
 
     /**
-     * Cria o padrão de produção de leite a ser procurado.
-     *
-     * @return Lista de leituras de produção de leite que representam o padrão.
+     * Imprime se encontrou um padrão de produção de leite.
+     * @param encontrado Se encontrou um padrão de produção de leite.
      */
-    private static List<Leite> criarPadrao() {
-        List<Leite> padrao = new ArrayList<>();
-        padrao.add(new Leite(18));
-        padrao.add(new Leite(20));
-        return padrao;
-    }
-
-    /**
-     * Imprime o resultado da busca pelo padrão de produção de leite.
-     *
-     * @param encontrado Indica se o padrão foi encontrado ou não.
-     */
-    private static void imprimirResultadoPadrao(boolean encontrado) {
-        if (encontrado) {
-            System.out.println("Padrão encontrado");
-        } else {
-            System.out.println("Padrão não encontrado");
-        }
+    private static void imprimirSeEncontrouPadrao(boolean encontrado) {
+        System.out.println(encontrado ? "Padrão de produção de leite encontrado." : "Padrão de produção de leite não encontrado.");
     }
 }

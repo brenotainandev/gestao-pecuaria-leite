@@ -13,7 +13,7 @@ public class SensoriamentoImpl implements Sensoriamento<Leite> {
 
     /**
      * Este método gera randomicamente as leituras de produção de leite.
-     * Complexidade: O(N), onde N é o total de leituras.
+     * Complexidade linear, O(N)
      */
     @Override
     public List<Leite> gerar(int totalLeituras) {

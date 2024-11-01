@@ -7,5 +7,5 @@ public interface Operacoes<Monitorado, Sensor> {
     void imprimir(List<Monitorado> monitorados);
     void imprimir(Map<Monitorado, List<Sensor>> leituras);
     Map<Monitorado, List<Sensor>> ordenar(Map<Monitorado, List<Sensor>> leituras);
-    boolean procurarPadrao(Map<Monitorado, List<Sensor>> leituras, List<Sensor> padrao);
+    boolean calcularPrudcaoMedia(Map<Monitorado, List<Sensor>> leituras, int producaoMedia);
 }
