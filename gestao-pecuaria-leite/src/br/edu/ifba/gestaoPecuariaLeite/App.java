@@ -24,9 +24,11 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         Sensoriamento<Leite> sensoriamento = new SensoriamentoImpl();
+        Operacoes<Vaca, Leite> operacoes = new OperacoesImpl();
+
+        // Gera leituras de produção de leite para cada vaca
         Map<Vaca, List<Leite>> leituras = gerarLeituras(sensoriamento);
 
-        Operacoes<Vaca, Leite> operacoes = new OperacoesImpl();
 
         // (d.1) Imprimindo as vacas monitoradas
         imprimirVacas(operacoes, leituras);
@@ -39,12 +41,12 @@ public class App {
         imprimirLeiturasOrdenadas(operacoes, leiturasOrdenadas);
 
         // (d.4) Procurando por um padrão de produção de leite nas leituras
-        calcularPrudcaoMedia(operacoes, leituras);
+        calcularPrudcaoMedia(operacoes, leituras, PRODUCAO_MEDIA);
     }
 
     /**
      * Gera leituras de produção de leite para cada vaca.
-     *
+     * Complexidade quadrática, O(N²)
      * @param sensoriamento Instância de sensoriamento para gerar leituras.
      * @return Mapa de vacas e suas respectivas leituras de produção de leite.
      * @throws Exception Se ocorrer um erro ao gerar as leituras.
@@ -114,9 +116,9 @@ public class App {
      * em uma complexidade quadrática. Dependendo da quantidade de vacas e leituras realizadas, a execução
      * deste algoritmo pode elevar o seu tempo/custo e torná-lo ineficiente e ineficaz.
      */
-    private static void calcularPrudcaoMedia(Operacoes<Vaca, Leite> operacoes, Map<Vaca, List<Leite>> leituras) {
+    private static void calcularPrudcaoMedia(Operacoes<Vaca, Leite> operacoes, Map<Vaca, List<Leite>> leituras, int producaoMedia) {
         System.out.println("Calculando a produção média de leite por vaca:");
-        boolean encontrado = operacoes.calcularPrudcaoMedia(leituras, PRODUCAO_MEDIA);
+        boolean encontrado = operacoes.calcularPrudcaoMedia(leituras, producaoMedia);
         imprimirSeEncontrouPadrao(encontrado);
     }
 
