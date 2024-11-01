@@ -25,7 +25,7 @@ public class OrdenadorImpl extends Ordenador<Leite> {
      * @param inicio
      * @param fim
      */
-    public void ordenar(int inicio, int fim) {
+    private void ordenar(int inicio, int fim) {
         if (inicio < fim && (fim - inicio) >= 1) {
             int meio = (fim + inicio) / 2;
             ordenar(inicio, meio);
