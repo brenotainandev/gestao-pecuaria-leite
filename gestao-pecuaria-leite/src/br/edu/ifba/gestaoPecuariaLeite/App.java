@@ -41,7 +41,7 @@ public class App {
         imprimirLeiturasOrdenadas(operacoes, leiturasOrdenadas);
 
         // (d.4) Procurando por um padrão de produção de leite nas leituras
-        calcularPrudcaoMedia(operacoes, leituras, PRODUCAO_MEDIA);
+        calcularPrudcaoMedia(operacoes, leituras);
     }
 
     /**
@@ -108,17 +108,16 @@ public class App {
      * Procura por um padrão de produção de leite nas leituras.
      *
      * @param operacoes Instância de operações para procurar o padrão.
-     * @param leituras Mapa de vacas e suas respectivas leituras de produção de leite.
-     *
-     * Este método pode gerar uma situação de necessidade de processamento via brute force (força bruta)
-     * quando o número de vacas e o número de leituras de leite por vaca são grandes. Isso ocorre porque
-     * o algoritmo itera sobre cada vaca e, para cada vaca, itera sobre suas leituras de leite, resultando
-     * em uma complexidade quadrática. Dependendo da quantidade de vacas e leituras realizadas, a execução
-     * deste algoritmo pode elevar o seu tempo/custo e torná-lo ineficiente e ineficaz.
+     * @param leituras  Mapa de vacas e suas respectivas leituras de produção de leite.
+     *                  <p>
+     *                  Este método pode gerar uma situação de necessidade de processamento via brute force (força bruta)
+     *                  quando o número de vacas e o número de leituras de leite por vaca são grandes. Isso ocorre porque
+     *                  o algoritmo itera sobre cada vaca e, para cada vaca, itera sobre suas leituras de leite, resultando
+     *                  em uma complexidade cúbica O(N³).
      */
-    private static void calcularPrudcaoMedia(Operacoes<Vaca, Leite> operacoes, Map<Vaca, List<Leite>> leituras, int producaoMedia) {
+    private static void calcularPrudcaoMedia(Operacoes<Vaca, Leite> operacoes, Map<Vaca, List<Leite>> leituras) {
         System.out.println("Calculando a produção média de leite por vaca:");
-        boolean encontrado = operacoes.calcularPrudcaoMedia(leituras, producaoMedia);
+        boolean encontrado = operacoes.calcularProducaoMedia(leituras, PRODUCAO_MEDIA);
         imprimirSeEncontrouPadrao(encontrado);
     }
 

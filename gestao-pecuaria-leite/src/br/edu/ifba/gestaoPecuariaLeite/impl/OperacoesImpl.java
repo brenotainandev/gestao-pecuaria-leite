@@ -55,35 +55,48 @@ public class OperacoesImpl implements Operacoes<Vaca, Leite> {
 
 
     /**
-     * Método que calcula a produção média de leite por vaca.
-     * Complexidade quadrática, O(N²)
+     * Método que calcula a produção média de leite por vaca e compara a produção média de cada vaca com
+     * as médias de todas as outras vacas.
+     * Complexidade: O(N³)
      *
-     * Este método pode gerar uma situação de necessidade de processamento via brute force (força bruta)
-     * quando o número de vacas e o número de leituras de leite por vaca são grandes. Isso ocorre porque
-     * o algoritmo itera sobre cada vaca e, para cada vaca, itera sobre suas leituras de leite, resultando
-     * em uma complexidade quadrática. Dependendo da quantidade de vacas e leituras realizadas, a execução
-     * deste algoritmo pode elevar o seu tempo/custo e torná-lo ineficiente e ineficaz.
+     * A complexidade O(N³) é causada pela presença de três loops aninhados:
+     * 1. O primeiro loop percorre as vacas (O(N)).
+     * 2. O segundo loop percorre novamente as vacas, comparando cada vaca com outra vaca (O(N)).
+     * 3. O terceiro loop compara a vaca com outra vaca e uma terceira vaca (O(N)).
+     *
+     * Isso resulta em um tempo de execução que cresce cubicamente com relação ao número de vacas (O(N³)).
+     * Em situações com muitas vacas, essa complexidade pode tornar o algoritmo muito ineficiente.
      */
     @Override
-    public boolean calcularPrudcaoMedia(Map<Vaca, List<Leite>> leituras, int producaoMedia) {
+    public boolean calcularProducaoMedia(Map<Vaca, List<Leite>> leituras, int producaoMedia) {
         boolean encontrado = false;
         List<Vaca> vacasComMediaAlta = new ArrayList<>();
         List<Vaca> vacasComMediaBaixa = new ArrayList<>();
         Map<Vaca, Double> mediasProducoes = new HashMap<>();
 
         for (Vaca vaca : leituras.keySet()) {
-            System.out.println("Calculando a produção média de leite da vaca: " + vaca);
-
             List<Leite> producoes = leituras.get(vaca);
             int somaProducoes = 0;
 
+            // Somando as produções de leite
             for (Leite producao : producoes) {
                 somaProducoes += producao.getQuantidade();
             }
 
             double mediaProducoes = (double) somaProducoes / producoes.size();
             mediasProducoes.put(vaca, mediaProducoes);
-            System.out.println("Produção média da vaca " + vaca + ": " + mediaProducoes);
+
+            // Comparando a média de leite da vaca com as médias de todas as outras vacas (O(N³))
+            for (Vaca outraVaca : leituras.keySet()) {
+                for (Vaca outraOutraVaca : leituras.keySet()) {
+                    if (!outraVaca.equals(vaca) && !outraOutraVaca.equals(vaca) && !outraVaca.equals(outraOutraVaca)) {
+                        System.out.println("Comparando a vaca " + vaca.getNome() + " (média: " + mediaProducoes + ") " +
+                                "com as vacas " + outraVaca.getNome() + " (média: " + mediasProducoes.get(outraVaca) + ") " +
+                                "e " + outraOutraVaca.getNome() + " (média: " + mediasProducoes.get(outraOutraVaca) + ").");
+                    }
+                }
+            }
+
 
             if (mediaProducoes >= producaoMedia) {
                 vacasComMediaAlta.add(vaca);
@@ -93,6 +106,7 @@ public class OperacoesImpl implements Operacoes<Vaca, Leite> {
             }
         }
 
+        // Exibindo vacas com média alta ou baixa
         System.out.println("Vacas com produção média maior ou igual a " + producaoMedia + ":");
         for (Vaca vaca : vacasComMediaAlta) {
             System.out.println("id: " + vaca.getId() + ", nome: " + vaca.getNome() + ", média: " + mediasProducoes.get(vaca));
@@ -105,4 +119,5 @@ public class OperacoesImpl implements Operacoes<Vaca, Leite> {
 
         return encontrado;
     }
+
 }
